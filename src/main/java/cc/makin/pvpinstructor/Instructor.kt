@@ -8,7 +8,6 @@ import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
-import org.bukkit.event.player.PlayerInteractAtEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import java.awt.Color
 
@@ -16,25 +15,14 @@ class Instructor(
     private val settingStorage: PvpInstructorSettingStorage,
 ) : Listener {
     @EventHandler(priority = EventPriority.LOWEST)
-    fun handleAttack(event: PlayerInteractEvent) {
-        when (event.action) {
-            Action.LEFT_CLICK_AIR,
-            Action.LEFT_CLICK_BLOCK,
-            -> handleAttack(event.player)
-            else -> {
-            }
-        }
-    }
-
-    @EventHandler(priority = EventPriority.LOWEST)
-    fun handleAttack(event: EntityDamageByEntityEvent) {
+    fun handleCooldownReset(event: EntityDamageByEntityEvent) {
         val damager = event.damager
         if (damager is Player && event.cause != EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK) {
-            handleAttack(damager)
+            handleCooldownReset(damager)
         }
     }
 
-    private fun handleAttack(player: Player) = run {
+    private fun handleCooldownReset(player: Player) = run {
         if (this.settingStorage.hasEnabledInstructor(player.uniqueId)) {
             val cd = player.attackCooldown
             val message = getMessage(cd)
