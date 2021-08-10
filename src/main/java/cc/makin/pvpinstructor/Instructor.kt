@@ -6,6 +6,9 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
+import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.entity.EntityDamageEvent
+import org.bukkit.event.player.PlayerInteractAtEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import java.awt.Color
 
@@ -18,7 +21,16 @@ class Instructor(
             Action.LEFT_CLICK_AIR,
             Action.LEFT_CLICK_BLOCK,
             -> handleAttack(event.player)
-            else -> {}
+            else -> {
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    fun handleAttack(event: EntityDamageByEntityEvent) {
+        val damager = event.damager
+        if (damager is Player && event.cause != EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK) {
+            handleAttack(damager)
         }
     }
 
