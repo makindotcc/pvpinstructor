@@ -1,5 +1,12 @@
 name: 'Pvpinstruktarz'
+load: 'STARTUP'
 api-version: '1.16'
-main: 'cc.makin.pvpinstructor.PvpInstruktarz'
+main: 'cc.makin.pvpinstructor.PvpInstruktarzPlugin'
 version: '${project.pluginVersion}'
 authors: [makin_cc]
+
+commands:
+  pvpinstruktarz:
+    usage: '/pvpinstructor <on/off>'
+    aliases: ['pvpinstructor']
+    permission: 'pvpinstruktarz.command'

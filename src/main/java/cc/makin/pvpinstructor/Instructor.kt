@@ -7,14 +7,10 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.event.player.PlayerQuitEvent
-import org.bukkit.plugin.java.JavaPlugin
 
-class PvpInstruktarz : JavaPlugin(), Listener {
-    override fun onEnable() = run {
-        server.pluginManager.registerEvents(this, this)
-    }
-
+class Instructor(
+    private val settingStorage: PvpInstructorSettingStorage,
+) : Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     fun handleAttack(event: PlayerInteractEvent) {
         when (event.action) {
@@ -25,14 +21,16 @@ class PvpInstruktarz : JavaPlugin(), Listener {
     }
 
     private fun handleAttack(player: Player) = run {
-        val message = getMessage(player.attackCooldown)
-        player.sendTitle(" ", message, 0, 5, 5)
+        if (this.settingStorage.hasEnabledInstructor(player.uniqueId)) {
+            val message = getMessage(player.attackCooldown)
+            player.sendTitle(" ", message, 0, 5, 5)
+        }
     }
 
     private fun getMessage(cooldown: Float) = when (cooldown) {
-        in 0.0f..0.2f -> "${ChatColor.DARK_RED}fatalnie"
-        in 0.2f..0.4f -> "${ChatColor.RED}słabo"
-        in 0.4f..0.8f -> "${ChatColor.YELLOW}średnio"
+        in 0.0f..0.4f -> "${ChatColor.DARK_RED}fatalnie"
+        in 0.4f..0.6f -> "${ChatColor.RED}słabo"
+        in 0.6f..0.8f -> "${ChatColor.YELLOW}średnio"
         in 0.8f..0.99f -> "${ChatColor.GREEN}prawie dobrze"
         else -> "${ChatColor.GREEN}idealnie"
     }
