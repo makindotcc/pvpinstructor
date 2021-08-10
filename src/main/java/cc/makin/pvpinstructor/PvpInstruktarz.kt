@@ -25,16 +25,15 @@ class PvpInstruktarz : JavaPlugin(), Listener {
     }
 
     private fun handleAttack(player: Player) = run {
-        getMessage(player.attackCooldown)
-            ?.let { player.sendTitle(" ", it, 0, 5, 5) }
+        val message = getMessage(player.attackCooldown)
+        player.sendTitle(" ", message, 0, 5, 5)
     }
 
     private fun getMessage(cooldown: Float) = when (cooldown) {
         in 0.0f..0.2f -> "${ChatColor.DARK_RED}fatalnie"
         in 0.2f..0.4f -> "${ChatColor.RED}słabo"
-        in 0.4f..0.6f -> "${ChatColor.YELLOW}średnio"
-        in 0.6f..0.8f -> "${ChatColor.GREEN}prawie dobrze"
-        in 0.8f..1.0f -> "${ChatColor.GREEN}idealnie"
-        else -> null
+        in 0.4f..0.8f -> "${ChatColor.YELLOW}średnio"
+        in 0.8f..0.99f -> "${ChatColor.GREEN}prawie dobrze"
+        else -> "${ChatColor.GREEN}idealnie"
     }
 }
