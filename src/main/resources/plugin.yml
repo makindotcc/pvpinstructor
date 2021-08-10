@@ -4,6 +4,11 @@ api-version: '1.16'
 main: 'cc.makin.pvpinstructor.PvpInstruktarzPlugin'
 version: '${project.pluginVersion}'
 authors: [makin_cc]
+softdepend:
+  # https://www.spigotmc.org/resources/kotlin.80808/
+  # This plugin is optional, because kotlin stdlib could be
+  # included using other ways, for example by using "-cp" jvm argument.
+  - 'Kotlin'
 
 commands:
   pvpinstruktarz:
