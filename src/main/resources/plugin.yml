@@ -15,3 +15,8 @@ commands:
     usage: '/pvpinstructor <on/off>'
     aliases: ['pvpinstructor']
     permission: 'pvpinstruktarz.command'
+
+permissions:
+  'pvpinstruktarz.command':
+    default: true
+    description: 'Access to /pvpinstructor command'
