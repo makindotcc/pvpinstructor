@@ -1,0 +1,5 @@
+name: 'Pvpinstruktarz'
+api-version: '1.16'
+main: 'cc.makin.pvpinstructor.PvpInstruktarz'
+version: '${project.pluginVersion}'
+authors: [makin_cc]

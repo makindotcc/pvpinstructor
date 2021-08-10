@@ -1,0 +1,63 @@
+import java.time.Instant
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.32'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+}
+
+sourceCompatibility = 8
+targetCompatibility = 8
+
+group 'cc.makin'
+version 'Final'
+
+ext {
+    pluginVersion = createPluginVersion()
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+
+    maven {
+        url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+processResources {
+    expand(project.properties)
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
+}
+
+shadowJar {
+    archiveFileName = 'PVPInstructor.jar'
+}
+
+static def createPluginVersion() {
+    def buildCommit = 'git rev-parse --short HEAD'.execute().text.trim()
+    def buildDate = Instant.now().atZone(ZoneOffset.UTC)
+            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+    def buildUser = System.getProperties().get("user.name")
+    return '[' + buildCommit + '] ' + buildDate + ' by ' + buildUser
+}
